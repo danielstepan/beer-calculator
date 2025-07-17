@@ -1,11 +1,15 @@
 # 🍻 Pub Expense Tracker
 
-A modern, beautiful web application to track your drinks, food, and pub expenses in Czech crowns (Kč)!
+A comprehensive expense tracker for pubs and restaurants with extensive food & drink categories in Czech crowns (Kč)!
 
 ## Features
 
-- **Multiple Item Types**: Track beers, shots/chupitos, cocktails, wine, food, and more
-- **Add Item Prices**: Enter the price of each item in Czech crowns (Kč) and add it to your tab
+- **Comprehensive Food & Drink Tracking**: Extensive menu covering all pub/restaurant items
+- **Drinks**: Beer, chupitos/shots, wine, cocktails, soft drinks, coffee
+- **Pub Snacks**: Fries, pretzels, nuts, cheese plates, olives, sandwiches, hot dogs
+- **Main Courses**: Pizza, burgers, steaks, chicken, fish, pasta, schnitzel, tacos, soup
+- **Sides & Salads**: Salads, potatoes, bread, garlic bread, pickles
+- **Desserts**: Cakes, ice cream, pies, cookies, chocolate
 - **Smart Price Memory**: Leave price empty to automatically use the last item's price
 - **Real-time Total**: See your running total in Kč update instantly
 - **Item Counter**: Keep track of how many items you've had
@@ -16,14 +20,32 @@ A modern, beautiful web application to track your drinks, food, and pub expenses
 - **Multi-Screen Support**: Optimized for phones, tablets, and small screens
 - **Fun Animations**: Enjoy the bouncing beer emoji and celebration messages
 
+## Comprehensive Menu Categories
+
+### 🍺 Drinks
+Beer, Chupito/Shots, Wine, Cocktails, Soft Drinks, Coffee
+
+### 🍟 Pub Food & Snacks  
+Fries, Pretzels, Nuts, Cheese Plates, Olives, Sandwiches, Hot Dogs
+
+### 🍕 Main Courses
+Pizza, Burgers, Steaks, Chicken, Fish, Pasta, Schnitzel, Tacos, Soup
+
+### 🥗 Sides & Salads
+Salads, Potatoes, Bread, Garlic Bread, Pickles
+
+### 🍰 Desserts
+Cakes, Ice Cream, Pies, Cookies, Chocolate
+
 ## How to Use
 
-1. **Open `index.html`** in your web browser
-2. **Enter Beer Price**: Type the price of your beer in the input field
-3. **Add Beer**: Click the "Add Beer" button or press Enter
-4. **Quick Add**: Leave price empty to automatically use the last beer's price
-5. **Track Total**: Watch your total cost update automatically
-6. **Manage Beers**: Use "Remove Last" to undo or "Reset" to start over
+1. **Open the app** in your web browser
+2. **Select item type**: Choose from the comprehensive dropdown menu
+3. **Enter price**: Type the price in Czech crowns (Kč)
+4. **Add item**: Click "Add Item" or press Enter
+5. **Quick add**: Leave price empty to automatically use the last item's price
+6. **Track total**: Watch your running total update automatically
+7. **Manage items**: Use "Remove Last" to undo or "Reset" to start over
 
 ## Files Structure
 
