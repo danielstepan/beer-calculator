@@ -18,9 +18,6 @@ class PubExpenseTracker {
         
         // Initialize event listeners
         this.initEventListeners();
-        
-        // Focus on price input when page loads
-        this.itemPriceInput.focus();
     }
     
     initEventListeners() {
@@ -63,7 +60,6 @@ class PubExpenseTracker {
                 this.showSuccess(`Using last item price: ${Math.round(price)} Kč`);
             } else {
                 this.showError('Please enter a price for your first item!');
-                this.itemPriceInput.focus();
                 return;
             }
         }
@@ -71,7 +67,6 @@ class PubExpenseTracker {
         // Validate price
         if (price <= 0) {
             this.showError('Please enter a valid price!');
-            this.itemPriceInput.focus();
             return;
         }
         
@@ -91,9 +86,8 @@ class PubExpenseTracker {
         this.updateDisplay();
         this.addItemToList(item);
         
-        // Clear input and refocus
+        // Clear input (no auto-focus on mobile)
         this.itemPriceInput.value = '';
-        this.itemPriceInput.focus();
         
         // Add success animation
         this.addSuccessAnimation();
@@ -123,7 +117,6 @@ class PubExpenseTracker {
         this.updateDisplay();
         this.clearItemList();
         this.itemPriceInput.value = '';
-        this.itemPriceInput.focus();
         
         this.showSuccess('Calculator reset!');
     }
