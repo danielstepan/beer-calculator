@@ -18,6 +18,9 @@ class PubExpenseTracker {
         
         // Initialize event listeners
         this.initEventListeners();
+        
+        // Initialize placeholder
+        this.updatePricePlaceholder();
     }
     
     initEventListeners() {
@@ -133,6 +136,9 @@ class PubExpenseTracker {
         // Update remove button state
         this.removeLastBtn.disabled = this.items.length === 0;
         this.removeLastBtn.style.opacity = this.items.length === 0 ? '0.5' : '1';
+        
+        // Update price input placeholder with last item's price
+        this.updatePricePlaceholder();
     }
     
     addItemToList(item) {
@@ -161,6 +167,15 @@ class PubExpenseTracker {
     
     clearItemList() {
         this.itemListContainer.innerHTML = '';
+    }
+    
+    updatePricePlaceholder() {
+        if (this.items.length > 0) {
+            const lastPrice = Math.round(this.items[this.items.length - 1].price);
+            this.itemPriceInput.placeholder = `${lastPrice} (empty = repeat)`;
+        } else {
+            this.itemPriceInput.placeholder = '50 (empty = repeat)';
+        }
     }
     
     addSuccessAnimation() {
