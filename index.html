@@ -3,35 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Beer Calculator 🍺</title>
+    <title>Pub Expense Tracker 🍻</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🍺 Beer Calculator</h1>
-            <p>Track your pub expenses with style!</p>
+            <h1>🍻 Pub Expense Tracker</h1>
+            <p>Track your drinks, food & pub expenses!</p>
         </header>
 
         <div class="calculator-card">
-            <div class="beer-section">
-                <div class="beer-icon">🍺</div>
-                <div class="beer-counter">
-                    <span id="beerCount">0</span> beer(s)
+            <div class="summary-section">
+                <div class="main-icon">🍻</div>
+                <div class="item-counter">
+                    <span id="itemCount">0</span> item(s)
                 </div>
             </div>
 
             <div class="input-section">
-                <label for="beerPrice">Beer Price:</label>
+                <label for="itemType">Item Type:</label>
+                <select id="itemType" class="item-type-select">
+                    <option value="🍺 Beer">🍺 Beer</option>
+                    <option value="🥃 Chupito">🥃 Chupito/Shot</option>
+                    <option value="🍷 Wine">🍷 Wine</option>
+                    <option value="🍸 Cocktail">🍸 Cocktail</option>
+                    <option value="🥤 Soft Drink">🥤 Soft Drink</option>
+                    <option value="🍟 Food">🍟 Food</option>
+                    <option value="🍕 Pizza">🍕 Pizza</option>
+                    <option value="🍖 Main Course">🍖 Main Course</option>
+                    <option value="🥨 Snack">🥨 Snack</option>
+                    <option value="🍰 Dessert">🍰 Dessert</option>
+                    <option value="📋 Other">📋 Other</option>
+                </select>
+                
+                <label for="itemPrice">Price:</label>
                 <div class="price-input-group">
-                    <input type="number" id="beerPrice" placeholder="50 (empty = repeat)" step="1" min="0">
+                    <input type="number" id="itemPrice" placeholder="50 (empty = repeat)" step="1" min="0">
                     <span class="currency">Kč</span>
                 </div>
             </div>
 
-            <button id="addBeer" class="add-btn">
+            <button id="addItem" class="add-btn">
                 <span class="plus-icon">+</span>
-                Add Beer
+                Add Item
             </button>
 
             <div class="total-section">
@@ -44,8 +59,8 @@
                 <button id="removeLastBtn" class="remove-btn">Remove Last</button>
             </div>
 
-            <div class="beer-list" id="beerList">
-                <!-- Beer entries will be added here -->
+            <div class="item-list" id="itemList">
+                <!-- Item entries will be added here -->
             </div>
         </div>
     </div>

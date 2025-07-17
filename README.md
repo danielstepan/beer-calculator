@@ -1,16 +1,17 @@
-# 🍺 Beer Calculator
+# 🍻 Pub Expense Tracker
 
-A modern, beautiful web application to track your beer expenses at the pub in Czech crowns (Kč)!
+A modern, beautiful web application to track your drinks, food, and pub expenses in Czech crowns (Kč)!
 
 ## Features
 
-- **Add Beer Prices**: Enter the price of each beer in Czech crowns (Kč) and add it to your tab
-- **Smart Price Memory**: Leave price empty to automatically use the last beer's price
+- **Multiple Item Types**: Track beers, shots/chupitos, cocktails, wine, food, and more
+- **Add Item Prices**: Enter the price of each item in Czech crowns (Kč) and add it to your tab
+- **Smart Price Memory**: Leave price empty to automatically use the last item's price
 - **Real-time Total**: See your running total in Kč update instantly
-- **Beer Counter**: Keep track of how many beers you've had
-- **Beer List**: View a detailed list of all beers added with prices
+- **Item Counter**: Keep track of how many items you've had
+- **Detailed List**: View a complete list of all items with types and prices
 - **Beautiful UI**: Modern, responsive design with smooth animations
-- **Keyboard Shortcuts**: Use Enter to add beers, Ctrl+R to reset, Ctrl+Z to remove last
+- **Keyboard Shortcuts**: Use Enter to add items, Ctrl+R to reset, Ctrl+Z to remove last
 - **Mobile Optimized**: Fully responsive design with touch-friendly interface
 - **Multi-Screen Support**: Optimized for phones, tablets, and small screens
 - **Fun Animations**: Enjoy the bouncing beer emoji and celebration messages

@@ -47,12 +47,12 @@ header p {
     backdrop-filter: blur(10px);
 }
 
-.beer-section {
+.summary-section {
     text-align: center;
     margin-bottom: 30px;
 }
 
-.beer-icon {
+.main-icon {
     font-size: 4rem;
     margin-bottom: 15px;
     animation: bounce 2s infinite;
@@ -70,7 +70,7 @@ header p {
     }
 }
 
-.beer-counter {
+.item-counter {
     font-size: 1.2rem;
     font-weight: 600;
     color: #555;
@@ -85,6 +85,32 @@ header p {
     margin-bottom: 10px;
     font-weight: 600;
     color: #333;
+}
+
+.item-type-select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background: white;
+    color: #333;
+    margin-bottom: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 20px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.item-type-select:focus {
+    outline: none;
+    border-color: #667eea;
 }
 
 .price-input-group {
@@ -112,7 +138,7 @@ header p {
     box-sizing: border-box;
 }
 
-#beerPrice {
+#itemPrice {
     flex: 1;
     border: none;
     outline: none;
@@ -127,8 +153,8 @@ header p {
 }
 
 /* Remove number input arrows on WebKit browsers */
-#beerPrice::-webkit-outer-spin-button,
-#beerPrice::-webkit-inner-spin-button {
+#itemPrice::-webkit-outer-spin-button,
+#itemPrice::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
@@ -225,12 +251,12 @@ header p {
     transform: translateY(-1px);
 }
 
-.beer-list {
+.item-list {
     max-height: 200px;
     overflow-y: auto;
 }
 
-.beer-entry {
+.item-entry {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -252,16 +278,16 @@ header p {
     }
 }
 
-.beer-entry:last-child {
+.item-entry:last-child {
     margin-bottom: 0;
 }
 
-.beer-number {
+.item-number {
     font-weight: 600;
     color: #667eea;
 }
 
-.beer-price {
+.item-price {
     font-weight: 600;
     color: #333;
 }
@@ -292,7 +318,7 @@ header p {
         margin: 0;
     }
     
-    .beer-icon {
+    .main-icon {
         font-size: 3.5rem;
     }
     
@@ -314,7 +340,13 @@ header p {
         min-height: 50px;
     }
     
-    #beerPrice {
+    .item-type-select {
+        padding: 18px;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    
+    #itemPrice {
         padding: 18px;
         font-size: 1.2rem;
     }
@@ -360,16 +392,16 @@ header p {
         border-radius: 12px;
     }
     
-    .beer-section {
+    .summary-section {
         margin-bottom: 20px;
     }
     
-    .beer-icon {
+    .main-icon {
         font-size: 3rem;
         margin-bottom: 10px;
     }
     
-    .beer-counter {
+    .item-counter {
         font-size: 1.1rem;
     }
     
@@ -394,7 +426,13 @@ header p {
         font-size: 1.3rem;
     }
     
-    #beerPrice {
+    .item-type-select {
+        padding: 20px;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    #itemPrice {
         padding: 20px;
         font-size: 1.1rem;
     }
@@ -428,11 +466,11 @@ header p {
         min-height: 55px;
     }
     
-    .beer-list {
+    .item-list {
         max-height: 150px;
     }
     
-    .beer-entry {
+    .item-entry {
         padding: 12px;
         font-size: 0.9rem;
     }
@@ -448,7 +486,7 @@ header p {
         padding: 12px;
     }
     
-    .beer-icon {
+    .main-icon {
         font-size: 2.5rem;
     }
     
@@ -461,7 +499,13 @@ header p {
         font-size: 1.8rem;
     }
     
-    #beerPrice {
+    .item-type-select {
+        padding: 18px;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    #itemPrice {
         font-size: 1rem;
         padding: 18px;
     }
@@ -471,14 +515,14 @@ header p {
         font-size: 0.9rem;
     }
     
-    .beer-entry {
+        .item-entry {
         padding: 10px;
         font-size: 0.85rem;
     }
     
-         .beer-number, .beer-price {
-         font-size: 0.85rem;
-     }
+    .item-number, .item-price {
+        font-size: 0.85rem;
+    }
  }
 
 /* Mobile landscape orientation */
@@ -504,16 +548,16 @@ header p {
         padding: 12px;
     }
     
-    .beer-section {
+    .summary-section {
         margin-bottom: 15px;
     }
     
-    .beer-icon {
+    .main-icon {
         font-size: 2rem;
         margin-bottom: 5px;
     }
     
-    .beer-counter {
+    .item-counter {
         font-size: 1rem;
     }
     
@@ -541,26 +585,26 @@ header p {
         flex-direction: row;
     }
     
-    .beer-list {
+    .item-list {
         max-height: 100px;
     }
 }
 
-/* Custom scrollbar for beer list */
-.beer-list::-webkit-scrollbar {
+/* Custom scrollbar for item list */
+.item-list::-webkit-scrollbar {
     width: 6px;
 }
 
-.beer-list::-webkit-scrollbar-track {
+.item-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 3px;
 }
 
-.beer-list::-webkit-scrollbar-thumb {
+.item-list::-webkit-scrollbar-thumb {
     background: #c1c1c1;
     border-radius: 3px;
 }
 
-.beer-list::-webkit-scrollbar-thumb:hover {
+.item-list::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 } 

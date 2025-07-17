@@ -1,46 +1,47 @@
-// Beer Calculator JavaScript
+// Pub Expense Tracker JavaScript
 
-class BeerCalculator {
+class PubExpenseTracker {
     constructor() {
-        this.beers = [];
+        this.items = [];
         this.total = 0;
-        this.beerCount = 0;
+        this.itemCount = 0;
         
         // Get DOM elements
-        this.beerPriceInput = document.getElementById('beerPrice');
-        this.addBeerBtn = document.getElementById('addBeer');
+        this.itemTypeSelect = document.getElementById('itemType');
+        this.itemPriceInput = document.getElementById('itemPrice');
+        this.addItemBtn = document.getElementById('addItem');
         this.resetBtn = document.getElementById('resetBtn');
         this.removeLastBtn = document.getElementById('removeLastBtn');
-        this.beerCountDisplay = document.getElementById('beerCount');
+        this.itemCountDisplay = document.getElementById('itemCount');
         this.totalAmountDisplay = document.getElementById('totalAmount');
-        this.beerListContainer = document.getElementById('beerList');
+        this.itemListContainer = document.getElementById('itemList');
         
         // Initialize event listeners
         this.initEventListeners();
         
         // Focus on price input when page loads
-        this.beerPriceInput.focus();
+        this.itemPriceInput.focus();
     }
     
     initEventListeners() {
-        // Add beer button click
-        this.addBeerBtn.addEventListener('click', () => this.addBeer());
+        // Add item button click
+        this.addItemBtn.addEventListener('click', () => this.addItem());
         
         // Enter key in price input
-        this.beerPriceInput.addEventListener('keypress', (e) => {
+        this.itemPriceInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                this.addBeer();
+                this.addItem();
             }
         });
         
         // Reset button
         this.resetBtn.addEventListener('click', () => this.resetCalculator());
         
-        // Remove last beer button
-        this.removeLastBtn.addEventListener('click', () => this.removeLastBeer());
+        // Remove last item button
+        this.removeLastBtn.addEventListener('click', () => this.removeLastItem());
         
         // Auto-format price input for Czech crowns
-        this.beerPriceInput.addEventListener('input', (e) => {
+        this.itemPriceInput.addEventListener('input', (e) => {
             // Allow only whole numbers for Czech crowns
             let value = e.target.value;
             if (value && !isNaN(value)) {
@@ -50,114 +51,122 @@ class BeerCalculator {
         });
     }
     
-    addBeer() {
-        const priceInput = this.beerPriceInput.value;
+    addItem() {
+        const priceInput = this.itemPriceInput.value;
+        const itemType = this.itemTypeSelect.value;
         let price = parseFloat(priceInput);
         
-        // If no price entered, use the last beer's price
+        // If no price entered, use the last item's price
         if (isNaN(price) || priceInput === '') {
-            if (this.beers.length > 0) {
-                price = this.beers[this.beers.length - 1];
-                this.showSuccess(`Using last beer price: ${Math.round(price)} Kč`);
+            if (this.items.length > 0) {
+                price = this.items[this.items.length - 1].price;
+                this.showSuccess(`Using last item price: ${Math.round(price)} Kč`);
             } else {
-                this.showError('Please enter a beer price for your first beer!');
-                this.beerPriceInput.focus();
+                this.showError('Please enter a price for your first item!');
+                this.itemPriceInput.focus();
                 return;
             }
         }
         
         // Validate price
         if (price <= 0) {
-            this.showError('Please enter a valid beer price!');
-            this.beerPriceInput.focus();
+            this.showError('Please enter a valid price!');
+            this.itemPriceInput.focus();
             return;
         }
         
-        // Add beer to array
-        this.beers.push(price);
-        this.beerCount++;
+        // Create item object
+        const item = {
+            type: itemType,
+            price: price,
+            number: this.itemCount + 1
+        };
+        
+        // Add item to array
+        this.items.push(item);
+        this.itemCount++;
         this.total += price;
         
         // Update displays
         this.updateDisplay();
-        this.addBeerToList(price, this.beerCount);
+        this.addItemToList(item);
         
         // Clear input and refocus
-        this.beerPriceInput.value = '';
-        this.beerPriceInput.focus();
+        this.itemPriceInput.value = '';
+        this.itemPriceInput.focus();
         
         // Add success animation
         this.addSuccessAnimation();
     }
     
-    removeLastBeer() {
-        if (this.beers.length === 0) {
-            this.showError('No beers to remove!');
+    removeLastItem() {
+        if (this.items.length === 0) {
+            this.showError('No items to remove!');
             return;
         }
         
-        // Remove last beer
-        const removedPrice = this.beers.pop();
-        this.beerCount--;
-        this.total -= removedPrice;
+        // Remove last item
+        const removedItem = this.items.pop();
+        this.itemCount--;
+        this.total -= removedItem.price;
         
         // Update displays
         this.updateDisplay();
-        this.removeBeerFromList();
+        this.removeItemFromList();
     }
     
     resetCalculator() {
-        this.beers = [];
+        this.items = [];
         this.total = 0;
-        this.beerCount = 0;
+        this.itemCount = 0;
         
         this.updateDisplay();
-        this.clearBeerList();
-        this.beerPriceInput.value = '';
-        this.beerPriceInput.focus();
+        this.clearItemList();
+        this.itemPriceInput.value = '';
+        this.itemPriceInput.focus();
         
         this.showSuccess('Calculator reset!');
     }
     
     updateDisplay() {
-        this.beerCountDisplay.textContent = this.beerCount;
+        this.itemCountDisplay.textContent = this.itemCount;
         this.totalAmountDisplay.textContent = Math.round(this.total);
         
         // Update remove button state
-        this.removeLastBtn.disabled = this.beers.length === 0;
-        this.removeLastBtn.style.opacity = this.beers.length === 0 ? '0.5' : '1';
+        this.removeLastBtn.disabled = this.items.length === 0;
+        this.removeLastBtn.style.opacity = this.items.length === 0 ? '0.5' : '1';
     }
     
-    addBeerToList(price, beerNumber) {
-        const beerEntry = document.createElement('div');
-        beerEntry.className = 'beer-entry';
-        beerEntry.innerHTML = `
-            <span class="beer-number">🍺 Beer #${beerNumber}</span>
-            <span class="beer-price">${Math.round(price)} Kč</span>
+    addItemToList(item) {
+        const itemEntry = document.createElement('div');
+        itemEntry.className = 'item-entry';
+        itemEntry.innerHTML = `
+            <span class="item-number">${item.type} #${item.number}</span>
+            <span class="item-price">${Math.round(item.price)} Kč</span>
         `;
         
-        this.beerListContainer.appendChild(beerEntry);
+        this.itemListContainer.appendChild(itemEntry);
         
         // Scroll to bottom if list is long
-        this.beerListContainer.scrollTop = this.beerListContainer.scrollHeight;
+        this.itemListContainer.scrollTop = this.itemListContainer.scrollHeight;
     }
     
-    removeBeerFromList() {
-        const lastEntry = this.beerListContainer.lastElementChild;
+    removeItemFromList() {
+        const lastEntry = this.itemListContainer.lastElementChild;
         if (lastEntry) {
             lastEntry.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => {
-                this.beerListContainer.removeChild(lastEntry);
+                this.itemListContainer.removeChild(lastEntry);
             }, 300);
         }
     }
     
-    clearBeerList() {
-        this.beerListContainer.innerHTML = '';
+    clearItemList() {
+        this.itemListContainer.innerHTML = '';
     }
     
     addSuccessAnimation() {
-        const addBtn = this.addBeerBtn;
+        const addBtn = this.addItemBtn;
         addBtn.style.transform = 'scale(0.95)';
         addBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
         
@@ -253,9 +262,9 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize the calculator when DOM is loaded
+// Initialize the expense tracker when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new BeerCalculator();
+    new PubExpenseTracker();
 });
 
 // Add some fun features
@@ -276,13 +285,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Add some celebratory effects for milestones
-    const originalAddBeer = BeerCalculator.prototype.addBeer;
-    BeerCalculator.prototype.addBeer = function() {
-        originalAddBeer.call(this);
+    const originalAddItem = PubExpenseTracker.prototype.addItem;
+    PubExpenseTracker.prototype.addItem = function() {
+        originalAddItem.call(this);
         
         // Celebration for milestones
-        if (this.beerCount > 0 && this.beerCount % 5 === 0) {
-            this.showSuccess(`🎉 ${this.beerCount} beers! You're having a great time!`);
+        if (this.itemCount > 0 && this.itemCount % 5 === 0) {
+            this.showSuccess(`🎉 ${this.itemCount} items! You're having a great time!`);
         }
     };
 }); 
