@@ -86,8 +86,9 @@ class PubExpenseTracker {
         this.updateDisplay();
         this.addItemToList(item);
         
-        // Clear input (no auto-focus on mobile)
+        // Clear input and remove focus (prevent keyboard on mobile)
         this.itemPriceInput.value = '';
+        this.itemPriceInput.blur();
         
         // Add success animation
         this.addSuccessAnimation();
@@ -107,6 +108,9 @@ class PubExpenseTracker {
         // Update displays
         this.updateDisplay();
         this.removeItemFromList();
+        
+        // Ensure keyboard doesn't open on mobile
+        this.itemPriceInput.blur();
     }
     
     resetCalculator() {
@@ -117,6 +121,7 @@ class PubExpenseTracker {
         this.updateDisplay();
         this.clearItemList();
         this.itemPriceInput.value = '';
+        this.itemPriceInput.blur();
         
         this.showSuccess('Calculator reset!');
     }
