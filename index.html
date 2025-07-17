@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Beer Calculator 🍺</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍺 Beer Calculator</h1>
+            <p>Track your pub expenses with style!</p>
+        </header>
+
+        <div class="calculator-card">
+            <div class="beer-section">
+                <div class="beer-icon">🍺</div>
+                <div class="beer-counter">
+                    <span id="beerCount">0</span> beer(s)
+                </div>
+            </div>
+
+            <div class="input-section">
+                <label for="beerPrice">Beer Price:</label>
+                <div class="price-input-group">
+                    <input type="number" id="beerPrice" placeholder="50 (empty = repeat)" step="1" min="0">
+                    <span class="currency">Kč</span>
+                </div>
+            </div>
+
+            <button id="addBeer" class="add-btn">
+                <span class="plus-icon">+</span>
+                Add Beer
+            </button>
+
+            <div class="total-section">
+                <div class="total-label">Total Cost:</div>
+                <div class="total-amount"><span id="totalAmount">0</span> Kč</div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="resetBtn" class="reset-btn">Reset</button>
+                <button id="removeLastBtn" class="remove-btn">Remove Last</button>
+            </div>
+
+            <div class="beer-list" id="beerList">
+                <!-- Beer entries will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

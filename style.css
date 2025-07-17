@@ -1,0 +1,566 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.calculator-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.beer-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.beer-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.beer-counter {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.input-section {
+    margin-bottom: 25px;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.price-input-group {
+    display: flex;
+    align-items: center;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+}
+
+.price-input-group:focus-within {
+    border-color: #667eea;
+}
+
+.currency {
+    background: #f8f9fa;
+    padding: 15px;
+    font-weight: 600;
+    color: #555;
+    order: 2;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#beerPrice {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    background: white;
+    min-height: 44px; /* iOS minimum touch target */
+    box-sizing: border-box;
+}
+
+/* Remove number input arrows on WebKit browsers */
+#beerPrice::-webkit-outer-spin-button,
+#beerPrice::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.add-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px; /* Minimum touch target size */
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.add-btn:active {
+    transform: translateY(0);
+}
+
+.plus-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.total-section {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.total-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.total-amount {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.reset-btn, .remove-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+    min-height: 44px; /* Minimum touch target size */
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.reset-btn {
+    background: #ff6b6b;
+    color: white;
+}
+
+.remove-btn {
+    background: #ffa726;
+    color: white;
+}
+
+.reset-btn:hover, .remove-btn:hover {
+    transform: translateY(-1px);
+}
+
+.beer-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.beer-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.beer-entry:last-child {
+    margin-bottom: 0;
+}
+
+.beer-number {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.beer-price {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Enhanced mobile-friendly responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        background-attachment: fixed;
+    }
+    
+    .container {
+        padding: 5px;
+        max-width: 100%;
+    }
+    
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .calculator-card {
+        padding: 20px;
+        border-radius: 15px;
+        margin: 0;
+    }
+    
+    .beer-icon {
+        font-size: 3.5rem;
+    }
+    
+    /* Better touch targets for mobile */
+    .add-btn {
+        padding: 18px;
+        font-size: 1.3rem;
+        min-height: 60px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .reset-btn, .remove-btn {
+        padding: 15px;
+        font-size: 1.1rem;
+        min-height: 50px;
+    }
+    
+    #beerPrice {
+        padding: 18px;
+        font-size: 1.2rem;
+    }
+    
+    .currency {
+        padding: 18px;
+        font-size: 1.1rem;
+    }
+    
+    .total-section {
+        padding: 25px;
+    }
+    
+    .total-amount {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        padding: 0;
+    }
+    
+    header {
+        margin-bottom: 20px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    
+    header p {
+        font-size: 0.9rem;
+    }
+    
+    .calculator-card {
+        padding: 15px;
+        border-radius: 12px;
+    }
+    
+    .beer-section {
+        margin-bottom: 20px;
+    }
+    
+    .beer-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+    
+    .beer-counter {
+        font-size: 1.1rem;
+    }
+    
+    .input-section {
+        margin-bottom: 20px;
+    }
+    
+    .input-section label {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+    
+    /* Extra large touch targets for small screens */
+    .add-btn {
+        padding: 20px;
+        font-size: 1.2rem;
+        min-height: 65px;
+        margin-bottom: 20px;
+    }
+    
+    .plus-icon {
+        font-size: 1.3rem;
+    }
+    
+    #beerPrice {
+        padding: 20px;
+        font-size: 1.1rem;
+    }
+    
+    .currency {
+        padding: 20px;
+        font-size: 1rem;
+    }
+    
+    .total-section {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .total-label {
+        font-size: 0.9rem;
+    }
+    
+    .total-amount {
+        font-size: 2rem;
+    }
+    
+    .action-buttons {
+        margin-bottom: 15px;
+        gap: 10px;
+    }
+    
+    .reset-btn, .remove-btn {
+        padding: 16px;
+        font-size: 1rem;
+        min-height: 55px;
+    }
+    
+    .beer-list {
+        max-height: 150px;
+    }
+    
+    .beer-entry {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    /* Extra small screens (very small phones) */
+    header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .calculator-card {
+        padding: 12px;
+    }
+    
+    .beer-icon {
+        font-size: 2.5rem;
+    }
+    
+    .add-btn {
+        font-size: 1.1rem;
+        padding: 18px;
+    }
+    
+    .total-amount {
+        font-size: 1.8rem;
+    }
+    
+    #beerPrice {
+        font-size: 1rem;
+        padding: 18px;
+    }
+    
+    .currency {
+        padding: 18px;
+        font-size: 0.9rem;
+    }
+    
+    .beer-entry {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    
+         .beer-number, .beer-price {
+         font-size: 0.85rem;
+     }
+ }
+
+/* Mobile landscape orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        padding: 5px;
+    }
+    
+    header {
+        margin-bottom: 10px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    header p {
+        font-size: 0.8rem;
+    }
+    
+    .calculator-card {
+        padding: 12px;
+    }
+    
+    .beer-section {
+        margin-bottom: 15px;
+    }
+    
+    .beer-icon {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    
+    .beer-counter {
+        font-size: 1rem;
+    }
+    
+    .input-section {
+        margin-bottom: 15px;
+    }
+    
+    .add-btn {
+        margin-bottom: 15px;
+        padding: 12px;
+        min-height: 48px;
+    }
+    
+    .total-section {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+    
+    .total-amount {
+        font-size: 1.6rem;
+    }
+    
+    .action-buttons {
+        margin-bottom: 10px;
+        flex-direction: row;
+    }
+    
+    .beer-list {
+        max-height: 100px;
+    }
+}
+
+/* Custom scrollbar for beer list */
+.beer-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.beer-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.beer-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.beer-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+} 
