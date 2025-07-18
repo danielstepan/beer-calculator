@@ -562,6 +562,7 @@ header p {
     font-size: 1.3rem; /* Slightly larger */
     flex-shrink: 0;
     white-space: nowrap;
+    margin-left: 8px; /* Add some space from the plus button */
 }
 
 .quantity-controls {

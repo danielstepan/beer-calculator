@@ -217,12 +217,12 @@ class PubExpenseTracker {
                 <div class="item-info">
                     <span class="item-emoji">${emoji}</span>
                     <span class="item-name">${displayName}</span>
-                    <span class="item-price">${Math.round(item.price)} Kč</span>
                 </div>
                 <div class="quantity-controls">
                     <button class="quantity-btn minus-btn" data-key="${itemKey}">−</button>
                     <span class="quantity">${item.quantity}</span>
                     <button class="quantity-btn plus-btn" data-key="${itemKey}">+</button>
+                    <span class="item-price">${Math.round(item.price)} Kč</span>
                 </div>
             </div>
         `;
