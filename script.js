@@ -2,12 +2,13 @@
 
 class PubExpenseTracker {
     constructor() {
-        this.items = [];
+        this.items = new Map(); // Using Map to store grouped items by key
         this.total = 0;
         this.itemCount = 0;
         
         // Get DOM elements
         this.itemTypeSelect = document.getElementById('itemType');
+        this.itemNameInput = document.getElementById('itemName');
         this.itemPriceInput = document.getElementById('itemPrice');
         this.addItemBtn = document.getElementById('addItem');
         this.resetBtn = document.getElementById('resetBtn');
@@ -18,16 +19,19 @@ class PubExpenseTracker {
         
         // Initialize event listeners
         this.initEventListeners();
-        
-        // Initialize placeholder
-        this.updatePricePlaceholder();
     }
     
     initEventListeners() {
         // Add item button click
         this.addItemBtn.addEventListener('click', () => this.addItem());
         
-        // Enter key in price input
+        // Enter key in inputs
+        this.itemNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.itemPriceInput.focus();
+            }
+        });
+        
         this.itemPriceInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.addItem();
@@ -51,79 +55,137 @@ class PubExpenseTracker {
         });
     }
     
+    createItemKey(type, name) {
+        const itemName = name.trim() || type.split(' ')[1]; // Use type name if no custom name
+        return `${type}|${itemName}`;
+    }
+    
+    parseItemKey(key) {
+        const [type, name] = key.split('|');
+        return { type, name };
+    }
+    
     addItem() {
         const priceInput = this.itemPriceInput.value;
         const itemType = this.itemTypeSelect.value;
+        const itemName = this.itemNameInput.value.trim();
         let price = parseFloat(priceInput);
         
-        // If no price entered, use the last item's price
+        // Validate price
         if (isNaN(price) || priceInput === '') {
-            if (this.items.length > 0) {
-                price = this.items[this.items.length - 1].price;
-                this.showSuccess(`Using last item price: ${Math.round(price)} Kč`);
-            } else {
-                this.showError('Please enter a price for your first item!');
-                return;
-            }
+            this.showError('Please enter a valid price!');
+            return;
         }
         
-        // Validate price
         if (price <= 0) {
             this.showError('Please enter a valid price!');
             return;
         }
         
-        // Create item object
-        const item = {
-            type: itemType,
-            price: price,
-            number: this.itemCount + 1
-        };
+        // Create item key
+        const itemKey = this.createItemKey(itemType, itemName);
         
-        // Add item to array
-        this.items.push(item);
+        // Check if item already exists
+        if (this.items.has(itemKey)) {
+            // Increase quantity
+            const existingItem = this.items.get(itemKey);
+            existingItem.quantity++;
+            this.updateItemInList(itemKey, existingItem);
+        } else {
+            // Create new item
+            const item = {
+                type: itemType,
+                name: itemName || itemType.split(' ')[1], // Use type name if no custom name
+                price: price,
+                quantity: 1
+            };
+            
+            this.items.set(itemKey, item);
+            this.addItemToList(itemKey, item);
+        }
+        
+        // Update totals
         this.itemCount++;
         this.total += price;
-        
-        // Update displays
         this.updateDisplay();
-        this.addItemToList(item);
         
-        // Clear input and remove focus (prevent keyboard on mobile)
+        // Clear inputs
+        this.itemNameInput.value = '';
         this.itemPriceInput.value = '';
+        this.itemNameInput.blur();
         this.itemPriceInput.blur();
         
         // Add success animation
         this.addSuccessAnimation();
     }
     
+    increaseQuantity(itemKey) {
+        const item = this.items.get(itemKey);
+        if (item) {
+            item.quantity++;
+            this.itemCount++;
+            this.total += item.price;
+            this.updateItemInList(itemKey, item);
+            this.updateDisplay();
+        }
+    }
+    
+    decreaseQuantity(itemKey) {
+        const item = this.items.get(itemKey);
+        if (item && item.quantity > 0) {
+            item.quantity--;
+            this.itemCount--;
+            this.total -= item.price;
+            
+            if (item.quantity === 0) {
+                this.items.delete(itemKey);
+                this.removeItemFromList(itemKey);
+            } else {
+                this.updateItemInList(itemKey, item);
+            }
+            
+            this.updateDisplay();
+        }
+    }
+    
     removeLastItem() {
-        if (this.items.length === 0) {
+        if (this.items.size === 0) {
             this.showError('No items to remove!');
             return;
         }
         
-        // Remove last item
-        const removedItem = this.items.pop();
-        this.itemCount--;
-        this.total -= removedItem.price;
+        // Get the last item
+        const keys = Array.from(this.items.keys());
+        const lastKey = keys[keys.length - 1];
+        const lastItem = this.items.get(lastKey);
         
-        // Update displays
+        // Decrease quantity or remove
+        if (lastItem.quantity > 1) {
+            lastItem.quantity--;
+            this.itemCount--;
+            this.total -= lastItem.price;
+            this.updateItemInList(lastKey, lastItem);
+        } else {
+            this.items.delete(lastKey);
+            this.itemCount--;
+            this.total -= lastItem.price;
+            this.removeItemFromList(lastKey);
+        }
+        
         this.updateDisplay();
-        this.removeItemFromList();
-        
-        // Ensure keyboard doesn't open on mobile
         this.itemPriceInput.blur();
     }
     
     resetCalculator() {
-        this.items = [];
+        this.items.clear();
         this.total = 0;
         this.itemCount = 0;
         
         this.updateDisplay();
         this.clearItemList();
+        this.itemNameInput.value = '';
         this.itemPriceInput.value = '';
+        this.itemNameInput.blur();
         this.itemPriceInput.blur();
         
         this.showSuccess('Calculator reset!');
@@ -134,20 +196,38 @@ class PubExpenseTracker {
         this.totalAmountDisplay.textContent = Math.round(this.total);
         
         // Update remove button state
-        this.removeLastBtn.disabled = this.items.length === 0;
-        this.removeLastBtn.style.opacity = this.items.length === 0 ? '0.5' : '1';
-        
-        // Update price input placeholder with last item's price
-        this.updatePricePlaceholder();
+        this.removeLastBtn.disabled = this.items.size === 0;
+        this.removeLastBtn.style.opacity = this.items.size === 0 ? '0.5' : '1';
     }
     
-    addItemToList(item) {
+    addItemToList(itemKey, item) {
         const itemEntry = document.createElement('div');
         itemEntry.className = 'item-entry';
+        itemEntry.dataset.itemKey = itemKey;
+        
+        const { type } = this.parseItemKey(itemKey);
+        const emoji = type.split(' ')[0];
+        const category = type.split(' ')[1];
+        
         itemEntry.innerHTML = `
-            <span class="item-number">${item.type} #${item.number}</span>
-            <span class="item-price">${Math.round(item.price)} Kč</span>
+            <div class="item-info">
+                <span class="item-emoji">${emoji}</span>
+                <span class="item-name">${category}: ${item.name}</span>
+                <span class="item-price">${Math.round(item.price)} Kč</span>
+            </div>
+            <div class="quantity-controls">
+                <button class="quantity-btn minus-btn" data-key="${itemKey}">−</button>
+                <span class="quantity">${item.quantity}</span>
+                <button class="quantity-btn plus-btn" data-key="${itemKey}">+</button>
+            </div>
         `;
+        
+        // Add event listeners to buttons
+        const minusBtn = itemEntry.querySelector('.minus-btn');
+        const plusBtn = itemEntry.querySelector('.plus-btn');
+        
+        minusBtn.addEventListener('click', () => this.decreaseQuantity(itemKey));
+        plusBtn.addEventListener('click', () => this.increaseQuantity(itemKey));
         
         this.itemListContainer.appendChild(itemEntry);
         
@@ -155,27 +235,32 @@ class PubExpenseTracker {
         this.itemListContainer.scrollTop = this.itemListContainer.scrollHeight;
     }
     
-    removeItemFromList() {
-        const lastEntry = this.itemListContainer.lastElementChild;
-        if (lastEntry) {
-            lastEntry.style.animation = 'slideOut 0.3s ease';
+    updateItemInList(itemKey, item) {
+        const itemEntry = document.querySelector(`[data-item-key="${itemKey}"]`);
+        if (itemEntry) {
+            const quantitySpan = itemEntry.querySelector('.quantity');
+            quantitySpan.textContent = item.quantity;
+            
+            // Add pulse animation
+            quantitySpan.style.animation = 'pulse 0.3s ease';
             setTimeout(() => {
-                this.itemListContainer.removeChild(lastEntry);
+                quantitySpan.style.animation = '';
+            }, 300);
+        }
+    }
+    
+    removeItemFromList(itemKey) {
+        const itemEntry = document.querySelector(`[data-item-key="${itemKey}"]`);
+        if (itemEntry) {
+            itemEntry.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                itemEntry.remove();
             }, 300);
         }
     }
     
     clearItemList() {
         this.itemListContainer.innerHTML = '';
-    }
-    
-    updatePricePlaceholder() {
-        if (this.items.length > 0) {
-            const lastPrice = Math.round(this.items[this.items.length - 1].price);
-            this.itemPriceInput.placeholder = `${lastPrice} (empty = repeat)`;
-        } else {
-            this.itemPriceInput.placeholder = '50 (empty = repeat)';
-        }
     }
     
     addSuccessAnimation() {
