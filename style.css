@@ -526,6 +526,7 @@ header p {
     align-items: center;
     gap: 12px;
     flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
 }
 
 .item-emoji {
@@ -538,6 +539,9 @@ header p {
     color: #374151;
     font-size: 1.1rem;
     flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long names */
 }
 
 .item-price {
@@ -573,6 +577,7 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     touch-action: manipulation;
