@@ -540,8 +540,8 @@ header p {
     font-size: 1.1rem;
     flex: 1;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis for long names */
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .item-price {
