@@ -495,7 +495,7 @@ header p {
         0 1px 4px rgba(102, 126, 234, 0.05);
     position: relative;
     overflow: hidden;
-    gap: 16px; /* Add gap between item info and quantity controls */
+    gap: 20px; /* Increased gap between item info and quantity controls */
 }
 
 .item-entry::before {
@@ -528,7 +528,8 @@ header p {
     gap: 12px;
     flex: 1;
     min-width: 0; /* Prevents flex item from overflowing */
-    margin-right: 16px; /* Add margin to separate from quantity controls */
+    margin-right: 20px; /* Increased margin to separate from quantity controls */
+    max-width: calc(100% - 140px); /* Reserve space for quantity controls */
 }
 
 .item-emoji {
@@ -543,9 +544,10 @@ header p {
     font-size: 1.1rem;
     flex: 1;
     white-space: nowrap;
-    overflow: visible;
-    text-overflow: clip;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis for long names */
     margin-right: 12px; /* Add margin to separate from price */
+    min-width: 0; /* Allow text to shrink */
 }
 
 .item-price {
@@ -553,6 +555,7 @@ header p {
     color: #4f46e5;
     font-size: 1.2rem;
     flex-shrink: 0; /* Prevent price from shrinking */
+    white-space: nowrap; /* Prevent price from wrapping */
 }
 
 .quantity-controls {
@@ -566,6 +569,7 @@ header p {
         inset 0 2px 4px rgba(102, 126, 234, 0.1),
         0 2px 8px rgba(102, 126, 234, 0.08);
     flex-shrink: 0; /* Prevent quantity controls from shrinking */
+    min-width: 120px; /* Ensure minimum width for buttons */
 }
 
 .quantity-btn {
