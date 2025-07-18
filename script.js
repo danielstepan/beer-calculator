@@ -209,10 +209,19 @@ class PubExpenseTracker {
         const emoji = type.split(' ')[0];
         const category = type.split(' ')[1];
         
+        // Display logic: if custom name exists and differs from category, show "Category: Name"
+        // Otherwise just show the item type
+        let displayName;
+        if (item.name && item.name !== category) {
+            displayName = `${category}: ${item.name}`;
+        } else {
+            displayName = type; // Show full type with emoji
+        }
+        
         itemEntry.innerHTML = `
             <div class="item-info">
                 <span class="item-emoji">${emoji}</span>
-                <span class="item-name">${category}: ${item.name}</span>
+                <span class="item-name">${displayName}</span>
                 <span class="item-price">${Math.round(item.price)} Kč</span>
             </div>
             <div class="quantity-controls">
