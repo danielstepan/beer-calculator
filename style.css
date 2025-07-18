@@ -482,7 +482,7 @@ header p {
 .item-entry {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px 24px;
     background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
     border: 2px solid rgba(102, 126, 234, 0.15);
@@ -495,7 +495,6 @@ header p {
         0 1px 4px rgba(102, 126, 234, 0.05);
     position: relative;
     overflow: hidden;
-    gap: 20px; /* Increased gap between item info and quantity controls */
 }
 
 .item-entry::before {
@@ -522,20 +521,25 @@ header p {
     opacity: 1;
 }
 
+.item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
 .item-info {
     display: flex;
     align-items: center;
     gap: 12px;
     flex: 1;
-    min-width: 0; /* Prevents flex item from overflowing */
-    margin-right: 20px; /* Increased margin to separate from quantity controls */
-    max-width: calc(100% - 140px); /* Reserve space for quantity controls */
+    min-width: 0;
 }
 
 .item-emoji {
     font-size: 1.6rem;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    flex-shrink: 0; /* Prevent emoji from shrinking */
+    flex-shrink: 0;
 }
 
 .item-name {
@@ -545,17 +549,17 @@ header p {
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Show ellipsis for long names */
-    margin-right: 12px; /* Add margin to separate from price */
-    min-width: 0; /* Allow text to shrink */
+    text-overflow: ellipsis;
+    margin-right: 12px;
+    min-width: 0;
 }
 
 .item-price {
     font-weight: 800;
     color: #4f46e5;
     font-size: 1.2rem;
-    flex-shrink: 0; /* Prevent price from shrinking */
-    white-space: nowrap; /* Prevent price from wrapping */
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .quantity-controls {
@@ -568,8 +572,9 @@ header p {
     box-shadow: 
         inset 0 2px 4px rgba(102, 126, 234, 0.1),
         0 2px 8px rgba(102, 126, 234, 0.08);
-    flex-shrink: 0; /* Prevent quantity controls from shrinking */
-    min-width: 120px; /* Ensure minimum width for buttons */
+    flex-shrink: 0;
+    align-self: flex-start;
+    width: fit-content;
 }
 
 .quantity-btn {
